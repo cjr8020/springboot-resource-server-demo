@@ -1,0 +1,59 @@
+package com.standard.demo.configuration;
+
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+@EnableResourceServer
+@Configuration
+@EnableConfigurationProperties(OAuthProperties.class)
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
+  @Autowired
+  private OAuthProperties oAuthProperties;
+
+  @Autowired
+  private TokenStore tokenStore;
+
+  @Autowired
+  private JwtAccessTokenConverter accessTokenConverter;
+
+  @Autowired
+  private ResourceServerTokenServices tokenServices;
+
+  @Override
+  public void configure(HttpSecurity http) throws Exception {
+    http
+        .sessionManagement()
+          .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .authorizeRequests()
+          .antMatchers("/actuator/**").permitAll()
+        .and()
+        .authorizeRequests()
+          .anyRequest().authenticated()
+        .and()
+        .httpBasic()
+        .and()
+        .csrf().disable()
+        .exceptionHandling()
+        .authenticationEntryPoint(
+            (request, response, exception) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED)
+        )
+    ;
+  }
+
+  @Override
+  public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    resources.resourceId(null);  // needed if tokens do not contain resourceId
+  }
+}
