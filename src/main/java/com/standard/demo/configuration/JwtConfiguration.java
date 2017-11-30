@@ -1,9 +1,13 @@
 package com.standard.demo.configuration;
 
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.JwtAccessTokenConverterConfigurer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -21,6 +25,7 @@ public class JwtConfiguration {
   public JwtAccessTokenConverter accessTokenConverter() {
     JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
     converter.setSigningKey(oAuthProperties.getSigningKey());
+    converter.setAccessTokenConverter( new JwtConverter() );
     return converter;
   }
 
@@ -35,6 +40,27 @@ public class JwtConfiguration {
     defaultTokenServices.setTokenStore(tokenStore());
     defaultTokenServices.setSupportRefreshToken(true);
     return defaultTokenServices;
+  }
+
+  /**
+   * JWT Converter whose primary purpose is to copy
+   * JWT content into OAuth2Authentication
+   */
+  public static class JwtConverter
+      extends DefaultAccessTokenConverter
+      implements JwtAccessTokenConverterConfigurer {
+
+    @Override
+    public void configure(JwtAccessTokenConverter converter) {
+      converter.setAccessTokenConverter(this);
+    }
+
+    @Override
+    public OAuth2Authentication extractAuthentication(Map<String, ?> map) {
+      OAuth2Authentication auth = super.extractAuthentication(map);
+      auth.setDetails(map); // copy JWT content into Authentication
+      return auth;
+    }
   }
 
 }

@@ -58,6 +58,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
   @Override
   public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    resources.tokenServices(tokenServices);
 //    resources.resourceId(null);  // needed if tokens do not contain resourceId
     resources.resourceId(oAuthProperties.getResourceId());  // needed if tokens contain resourceId
   }
