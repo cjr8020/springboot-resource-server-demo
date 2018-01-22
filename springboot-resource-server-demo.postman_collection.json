@@ -1,7 +1,7 @@
 {
 	"info": {
 		"name": "springboot-resource-server-demo",
-		"_postman_id": "ae158cad-a9c0-5898-d25c-0352f01497ba",
+		"_postman_id": "1e2b4c5a-a0aa-9722-4d76-35415f35c588",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdC1vYXV0aDItcmVzb3VyY2VpZCJdLCJ1c2VyX25hbWUiOiJqb2huLmRvZSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTUxMTY2Nzc3OCwiYXV0aG9yaXRpZXMiOlsiU1RBTkRBUkRfVVNFUiJdLCJqdGkiOiJiZjZlYWE3Zi1hNmRkLTRlODUtOWU5Yy0xODBkYTIxMDM5YzQiLCJjbGllbnRfaWQiOiJ0ZXN0LXdlYi1jbGllbnRpZCJ9.-lI8tj5jL7zCbwzgA7dWeL2KhPvU5tXrq-QpcavLnSU",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdC1vYXV0aDItcmVzb3VyY2VpZCJdLCJ1c2VyX25hbWUiOiJqb2huLmRvZSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTUxNjM5MzU5NSwiYXV0aG9yaXRpZXMiOlsiU1RBTkRBUkRfVVNFUiJdLCJqdGkiOiI1Y2E1MmVhOC1kYTIxLTQ4M2EtODdkOC05MTZhNDdkMTNjMmYiLCJjbGllbnRfaWQiOiJ0ZXN0LXdlYi1jbGllbnRpZCJ9.G-qyUiJGqMBD78TwvZHiexXU7Fgnvnpa4hU2hLLZ1MI",
 							"type": "string"
 						}
 					]
@@ -38,8 +38,43 @@
 						"api",
 						"hello"
 					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8081/api/admin-hello",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsidGVzdC1vYXV0aDItcmVzb3VyY2VpZCJdLCJ1c2VyX25hbWUiOiJqb2huLmRvZSIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSIsInRydXN0Il0sImV4cCI6MTUxNjIxOTc4NCwiYXV0aG9yaXRpZXMiOlsiU1RBTkRBUkRfVVNFUiJdLCJqdGkiOiI3MTYxNDA3My1iZjhkLTQ4ZGYtYjU0Zi1hMzIwMGVjMmY4ZTEiLCJjbGllbnRfaWQiOiJ0ZXN0LXdlYi1jbGllbnRpZCJ9.V0z41X3FiD-HDAK3NdhNgkjXn3mz45VSqJV3VMfmHrE",
+							"type": "string"
+						}
+					]
 				},
-				"description": ""
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8081/api/admin-hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"admin-hello"
+					]
+				}
 			},
 			"response": []
 		}
